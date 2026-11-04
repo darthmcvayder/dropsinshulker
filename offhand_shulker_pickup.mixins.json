@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "com.unconquered.shulkerpickup.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": ["ItemEntityMixin", "ServerLevelMixin"],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
