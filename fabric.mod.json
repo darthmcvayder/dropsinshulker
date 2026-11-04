@@ -7,6 +7,9 @@
   "authors": ["Chase McVay"],
   "license": "MIT",
   "environment": "*",
+  "entrypoints": {
+    "main": ["com.unconquered.shulkerpickup.OffhandShulkerPickup"]
+  },
   "mixins": ["offhand_shulker_pickup.mixins.json"],
   "depends": {
     "fabricloader": ">=0.20.0",

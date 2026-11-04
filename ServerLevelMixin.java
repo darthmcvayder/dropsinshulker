@@ -1,6 +1,7 @@
 package com.unconquered.shulkerpickup.mixin;
 
 import com.unconquered.shulkerpickup.CarpetOrgCompat;
+import com.unconquered.shulkerpickup.OffhandShulkerPickup;
 import com.unconquered.shulkerpickup.ShulkerInserter;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,11 +27,21 @@ public abstract class ServerLevelMixin {
     private void osp$minedDropsIntoShulker(Entity entity, CallbackInfoReturnable<Boolean> cir) {
         if (!(entity instanceof ItemEntity itemEntity)) return;
 
-        ServerPlayer player = CarpetOrgCompat.activeBreakerWithRuleOn();
+        ServerPlayer player = CarpetOrgCompat.currentBreaker();
         if (player == null) return;
 
         ItemStack drop = itemEntity.getItem();
-        int inserted = ShulkerInserter.insertIntoOffhandShulker(player, drop);
+        String rule = CarpetOrgCompat.ruleValueFor(player);
+        boolean ruleOn = "TRUE".equals(rule);
+        int inserted = ruleOn ? ShulkerInserter.insertIntoOffhandShulker(player, drop) : 0;
+
+        if (OffhandShulkerPickup.DEBUG) {
+            OffhandShulkerPickup.LOGGER.info(
+                    "[offhand_shulker_pickup] mined drop {} x{} by {}: rule={}, offhand={}, inserted={}",
+                    drop.getItem(), drop.getCount(), player.getName().getString(),
+                    rule, player.getOffhandItem().getItem(), inserted);
+        }
+
         if (inserted <= 0) return;
 
         player.awardStat(Stats.ITEM_PICKED_UP.get(drop.getItem()), inserted);
