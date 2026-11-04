@@ -8,7 +8,7 @@ public final class OffhandShulkerPickup implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("offhand_shulker_pickup");
 
     /** Temporary: logs each mined drop's handling, to diagnose the Carpet Org integration. */
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     @Override
     public void onInitialize() {
